@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import os
 from pdf2image import convert_from_path
 import pytesseract
+import uuid
 
 load_dotenv()  # Load environment variables
 app = Flask(__name__)
@@ -41,25 +42,26 @@ def upload_pdf():
 def extract_text_from_pdf(file):
     try:
         # Save the file temporarily
-        file.save("temp.pdf")
+        filename = f"{uuid.uuid4()}.pdf"
+        file.save(filename)
 
         # Convert PDF to images
-        images = convert_from_path("temp.pdf")
-
+        images = convert_from_path(filename)
+        os.remove(filename)
         text = ''
         for image in images:
             text += pytesseract.image_to_string(image)
 
         # Remove the temporary file
-        os.remove("temp.pdf")
+
 
         return text
     except Exception as e:
         print(f"Error extracting text from PDF: {e}")
         return None
     finally:
-        if os.path.exists("temp.pdf"):
-            os.remove("temp.pdf")
+        if os.path.exists(filename):
+            os.remove(filename)
 
 
 def generate_response(text):
