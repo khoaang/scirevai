@@ -41,25 +41,27 @@ def upload_pdf():
 
 def extract_text_from_pdf(file):
     try:
-        # Save the file temporarily
+        # Generate a unique filename
         filename = f"{uuid.uuid4()}.pdf"
+
+        # Save the file temporarily
         file.save(filename)
 
-        # Convert PDF to images
-        images = convert_from_path(filename)
-        os.remove(filename)
+        # Convert PDF to images and process them one at a time
         text = ''
-        for image in images:
+        for page_number in range(1, PdfReader(filename).getNumPages() + 1):
+            image = convert_from_path(filename, first_page=page_number, last_page=page_number)[0]
             text += pytesseract.image_to_string(image)
 
         # Remove the temporary file
-
+        os.remove(filename)
 
         return text
     except Exception as e:
         print(f"Error extracting text from PDF: {e}")
         return None
     finally:
+        # Remove the temporary file if it still exists
         if os.path.exists(filename):
             os.remove(filename)
 
