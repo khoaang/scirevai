@@ -57,6 +57,9 @@ def extract_text_from_pdf(file):
     except Exception as e:
         print(f"Error extracting text from PDF: {e}")
         return None
+    finally:
+        if os.path.exists("temp.pdf"):
+            os.remove("temp.pdf")
 
 
 def generate_response(text):
