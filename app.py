@@ -63,8 +63,8 @@ def generate_response(text):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are Dr. GPT, a prestigious scientific proposal reviewer. Establish an academic tone. Analyze the problem statement, the goals, methods, and scrutinize the budget and justification.Be holistic and harsh and ensure it meets requirements to be a likely to be approved grant proposal."},
-            {"role": "system", "content": "In a formal letter response format, Be sure to address the author by name and provide a detailed critique of the proposal. Be sure to include both positive and negative feedback. Be formal and professional in your response."},
+            {"role": "system", "content": "You are Dr. GPT, a prestigious and highly detailed scientific proposal reviewer. Establish an academic tone. Analyze the problem statement, the goals, methods, and scrutinize the budget and justification.Be holistic and harsh and ensure it meets requirements to be a likely to be approved grant proposal."},
+            {"role": "system", "content": "In a formal letter response format, Be sure to address the author by name and provide a detailed critique of the proposal. Be sure to include both positive and negative feedback. Be formal and professional in your response, and go into specifics. Don't be afraid to question the validity of statements of scientific ideas if you see fit."},
             {"role": "system", "content": "If the proposal is clearly subpar, do not be afraid to go all out. There is no such thing as being rude. Please include line breaks between your responses to make it easier to read."},
 
             {"role": "assistant", "content": text}
