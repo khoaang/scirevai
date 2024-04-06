@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Upload</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Proposal Reviewer</h1>
+    <div id="loading" style="display: none;">
+        <img id="loading" src="{{ url_for('static', filename='loading.gif') }}">
+    </div>
+    <form id="upload-form">
+        <input type="file" id="pdf-file" name="pdf" accept=".pdf">
+        <input class="btn" type="submit" value="Upload">
+    </form>
+    <button id="upload-another" style="display: none;" class="btn">Upload another proposal</button>
+    <div id="response" style="display: none;"></div>
+
+    <footer>
+        <p>Khoa Nguyen @ Ma Lab</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
