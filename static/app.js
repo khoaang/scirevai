@@ -75,6 +75,9 @@ function uploadFile(file) {
 })
   .catch(error => {
     console.error('Error:', error);
+    document.getElementById('loading').style.display = 'none';
+    // Show an alert
+    alert('Failed to upload file. Please try again.');
   });
 }
 
