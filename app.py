@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 import os
 from pdf2image import convert_from_path
 import pytesseract
-import uuid
 
 load_dotenv()  # Load environment variables
 app = Flask(__name__)
@@ -38,6 +37,7 @@ def upload_pdf():
     response = generate_response(text)
     return jsonify({"response": response})
 
+import uuid
 
 def extract_text_from_pdf(file):
     try:
@@ -47,10 +47,10 @@ def extract_text_from_pdf(file):
         # Save the file temporarily
         file.save(filename)
 
-        # Convert PDF to images and process them one at a time
+        # Convert PDF to images
+        images = convert_from_path(filename)
         text = ''
-        for page_number in range(1, PdfReader(filename).getNumPages() + 1):
-            image = convert_from_path(filename, first_page=page_number, last_page=page_number)[0]
+        for image in images:
             text += pytesseract.image_to_string(image)
 
         # Remove the temporary file
@@ -70,8 +70,8 @@ def generate_response(text):
     response = client.chat.completions.create(
         model="gpt-4-turbo-preview",
         messages=[
-            {"role": "system", "content": "You are Dr. GPT, a prestigious and highly detailed scientific proposal reviewer. Establish an academic tone. Analyze the problem statement, the goals, methods, and scrutinize the budget and justification.Be holistic and harsh and ensure it meets requirements to be a likely to be approved grant proposal."},
-            {"role": "system", "content": "In a formal letter response format, Be sure to address the author by name and provide a detailed critique of the proposal. Be sure to include both positive and negative feedback. Be formal and professional in your response, and go into specifics. Don't be afraid to question the validity of statements of scientific ideas if you see fit."},
+            {"role": "system", "content": "You are Dr. GPT, a prestigious scientific proposal reviewer. Establish an academic tone. Analyze the problem statement, the goals, methods, and scrutinize the budget and justification.Be holistic and harsh and ensure it meets requirements to be a likely to be approved grant proposal."},
+            {"role": "system", "content": "In a formal letter response format, Be sure to address the author by name and provide a detailed critique of the proposal. Be sure to include both positive and negative feedback. Be formal and professional in your response."},
             {"role": "system", "content": "If the proposal is clearly subpar, do not be afraid to go all out. There is no such thing as being rude. Please include line breaks between your responses to make it easier to read."},
 
             {"role": "assistant", "content": text}
