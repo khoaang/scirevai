@@ -61,7 +61,7 @@ def extract_text_from_pdf(file):
 
 def generate_response(text):
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4-turbo-preview",
         messages=[
             {"role": "system", "content": "You are Dr. GPT, a prestigious and highly detailed scientific proposal reviewer. Establish an academic tone. Analyze the problem statement, the goals, methods, and scrutinize the budget and justification.Be holistic and harsh and ensure it meets requirements to be a likely to be approved grant proposal."},
             {"role": "system", "content": "In a formal letter response format, Be sure to address the author by name and provide a detailed critique of the proposal. Be sure to include both positive and negative feedback. Be formal and professional in your response, and go into specifics. Don't be afraid to question the validity of statements of scientific ideas if you see fit."},
