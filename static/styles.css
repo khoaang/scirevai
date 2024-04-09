@@ -14,7 +14,8 @@ h1 {
 }
 
 form {
-    max-width: 600px;
+    width: 100%;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -60,7 +61,7 @@ form.highlight {
 #response {
     width: 80%;
     max-width: 1000px;
-    margin-top: 20px;
+    margin: 20px;
     padding: 15px;
     border-radius: 5px;
     background-color: #e9ecef;
@@ -71,7 +72,17 @@ form.highlight {
 }
 
 #loading {
-    width: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100px;
+
+}
+
+#loading img {
+    width: 50px;
 }
 
 footer {
@@ -81,5 +92,29 @@ footer {
     width: 100%;
     color: #656565;
     text-align: center;
-    padding: 10px 0;
+    padding: 5px 0;
+}
+
+h3,
+h4 {
+    margin: 0;
+}
+
+#upload-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media print {
+
+    /* Hide all elements */
+    body * {
+        display: none;
+    }
+
+    /* Show only the #response element and its children */
+    #response,
+    #response * {
+        display: block;
+    }
 }

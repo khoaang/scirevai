@@ -39,7 +39,41 @@ def upload_pdf():
 
 import uuid
 
+from pypdf import PdfReader
+import uuid
+
 def extract_text_from_pdf(file):
+    try:
+        # Generate a unique filename
+        filename = f"{uuid.uuid4()}.pdf"
+
+        # Save the file temporarily
+        file.save(filename)
+
+        # Extract text from PDF
+        reader = PdfReader(filename)
+        text = ''
+        for page in reader.pages:
+            page_text = page.extract_text()
+            if page_text is not None:
+                text += page_text
+        if not text:
+            print("No text extracted from PDF.")
+            return None
+
+        # Remove the temporary file
+        os.remove(filename)
+
+        return text
+    except Exception as e:
+        print(f"Error extracting text from PDF: {e}")
+        return None
+    finally:
+        # Remove the temporary file if it still exists
+        if os.path.exists(filename):
+            os.remove(filename)
+
+def extract_text_from_pdf_as_image(file):
     try:
         # Generate a unique filename
         filename = f"{uuid.uuid4()}.pdf"
@@ -65,15 +99,13 @@ def extract_text_from_pdf(file):
         if os.path.exists(filename):
             os.remove(filename)
 
-
 def generate_response(text):
+    # get system prompt from file "system_prompt.txt"
+    prompt = open("system_prompt.txt", "r").read()
     response = client.chat.completions.create(
         model="gpt-4-turbo-preview",
         messages=[
-            {"role": "system", "content": "You are Dr. GPT, a prestigious scientific proposal reviewer. Establish an academic tone. Analyze the problem statement, the goals, methods, and scrutinize the budget and justification.Be holistic and harsh and ensure it meets requirements to be a likely to be approved grant proposal."},
-            {"role": "system", "content": "In a formal letter response format, Be sure to address the author by name and provide a detailed critique of the proposal. Be sure to include both positive and negative feedback. Be formal and professional in your response."},
-            {"role": "system", "content": "If the proposal is clearly subpar, do not be afraid to go all out. There is no such thing as being rude. Please include line breaks between your responses to make it easier to read."},
-
+            {"role": "system", "content": prompt},
             {"role": "assistant", "content": text}
         ],
         max_tokens=1000,

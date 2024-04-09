@@ -6,12 +6,15 @@
 </head>
 <body>
     <h1>Proposal Reviewer</h1>
-    <div id="loading" style="display: none;">
-        <img id="loading" src="{{ url_for('static', filename='loading.gif') }}">
-    </div>
     <form id="upload-form">
-        <input type="file" id="pdf-file" name="pdf" accept=".pdf">
-        <input class="btn" type="submit" value="Upload">
+        <div id="loading" style="display: none;">
+            <p>Uploading...</p>
+            <img id="loading" src="{{ url_for('static', filename='loading.gif') }}">
+        </div>
+        <div id="upload-form-inputs">
+            <input type="file" id="pdf-file" name="pdf" accept=".pdf">
+            <input id="upload-button" class="btn" type="submit" value="Upload">
+        </div>
     </form>
     <button id="upload-another" style="display: none;" class="btn">Upload another proposal</button>
     <div id="response" style="display: none;"></div>
